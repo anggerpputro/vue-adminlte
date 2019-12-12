@@ -7,11 +7,11 @@
 				ref="inputEmail"
 				type="email"
 				class="form-control"
-				placeholder="Email"
+				placeholder="Username"
 				v-model="email"
 				@keyup.enter="doLogin"
-			>
-			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			/>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
 		</div>
 		<div class="form-group has-feedback">
 			<input
@@ -22,7 +22,7 @@
 				placeholder="Password"
 				v-model="password"
 				@keyup.enter="doLogin"
-			>
+			/>
 			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 		</div>
 		<div class="row">

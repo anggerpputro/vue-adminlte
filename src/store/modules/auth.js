@@ -2,11 +2,6 @@ import axiosAuth from "@/axios-auth";
 import router from "@/router";
 
 const state = {
-	apiKey: "AIzaSyAYQhAAuljgKrpXfsngjDZplNe09yuPziA",
-	clientId: "3",
-	// clientId: "4", // for password grant
-	clientSecret: "NCwtQFDNAeIgw2uLKETEdXK1EV7MrfoT545G43rL", // for password grant
-	oauthUri: "http://localhost:8090/oauth/authorize", // stock-analyzer-auth
 	redirectUri: "http://localhost/auth/callback", // stock-analyzer-client
 	logoutUri: "http://localhost", // stock-analyzer-client
 	dashboardUri: "http://localhost:8080", // stock-analyzer-client
@@ -141,6 +136,20 @@ const actions = {
 					}
 				});
 		}
+	},
+	doLogin({ dispatch }, { email, password }) {
+		// console.log("DO LOGIN", email, password);
+		axiosAuth
+			.post("/login", {
+				username: email,
+				password
+			})
+			.then(response => {
+				dispatch("callbackLogin", response.data.data);
+			})
+			.catch(error => {
+				console.error(error);
+			});
 	},
 	// doLogin({ commit, state }, { email, password }) {
 	// 	axiosAuth

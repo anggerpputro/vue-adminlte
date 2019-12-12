@@ -13,7 +13,7 @@ Vue.config.productionTip = false;
 
 // axios.defaults.baseURL = "https://vue-stock-analyzer.firebaseio.com/";
 // axios.defaults.baseURL = "http://localhost:8099/api/"; // java
-axios.defaults.baseURL = "http://localhost:8091/api/"; // laravel
+axios.defaults.baseURL = "http://localhost:81/pdampengaduan/api/"; // laravel
 
 Vue.filter("toCurrency", function(value) {
 	// if (typeof value !== "number") {
