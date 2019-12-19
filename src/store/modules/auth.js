@@ -122,7 +122,7 @@ const actions = {
 			};
 
 			axiosAuth
-				.get("/api/validate-token", { headers })
+				.get("/validate-token", { headers })
 				.then(response => {
 					const data = response.data;
 					if (data.valid !== undefined && data.valid == true) {

@@ -36,157 +36,26 @@
 					</a>
 				</router-link>
 				<!-- KERTAS KERJA -->
-				<li class="treeview">
+				<li v-for="(menu, menu_index) in getUserMenu" :key="menu_index" class="treeview">
 					<a href="#">
-						<i class="fa fa-edit"></i>
-						<span>Kertas Kerja</span>
+						<i class="fa" :class="menu.label.icon"></i>
+						<span>{{ menu.label.name }}</span>
 						<span class="pull-right-container">
 							<i class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
+
 					<ul class="treeview-menu">
 						<router-link
-							to="/comprehensive-income"
+							v-for="(sub_menu, sub_menu_index) in menu.sub_menu"
+							:key="menu_index+'--'+sub_menu_index"
+							:to="sub_menu.label.path"
 							tag="li"
-							:class="$route.path.toString().startsWith('/comprehensive-income') ? 'active router-link-active' : ''"
+							:class="$route.path.toString().startsWith(sub_menu.label.path) ? 'active router-link-active' : ''"
 						>
 							<a>
-								<i class="fa fa-circle-o"></i> Comprehensive Income
-							</a>
-						</router-link>
-						<router-link
-							to="/balance-sheet"
-							tag="li"
-							:class="$route.path.toString().startsWith('/balance-sheet') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Balance Sheet
-							</a>
-						</router-link>
-						<router-link
-							to="/cash-flow"
-							tag="li"
-							:class="$route.path.toString().startsWith('/cash-flow') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Cash Flow
-							</a>
-						</router-link>
-						<router-link
-							to="/general-fundamental"
-							tag="li"
-							:class="$route.path.toString().startsWith('/general-fundamental') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> General Fundamental
-							</a>
-						</router-link>
-					</ul>
-				</li>
-				<!-- COMMON SIZING -->
-				<li class="treeview">
-					<a href="#">
-						<i class="fa fa-pie-chart"></i>
-						<span>Common Sizing</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-					<ul class="treeview-menu">
-						<router-link
-							to="/common-sizing-comprehensive-income"
-							tag="li"
-							:class="$route.path.toString().startsWith('/common-sizing-comprehensive-income') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Comprehensive Income
-							</a>
-						</router-link>
-						<router-link
-							to="/common-sizing-balance-sheet"
-							tag="li"
-							:class="$route.path.toString().startsWith('/common-sizing-balance-sheet') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Balance Sheet
-							</a>
-						</router-link>
-						<router-link
-							to="/common-sizing-cash-flow"
-							tag="li"
-							:class="$route.path.toString().startsWith('/common-sizing-cash-flow') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Cash Flow
-							</a>
-						</router-link>
-					</ul>
-				</li>
-				<!-- MARKET INDEX -->
-				<li class="treeview">
-					<a href="#">
-						<i class="fa fa-tag"></i>
-						<span>Market Index</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-					<ul class="treeview-menu">
-						<router-link
-							to="/market-index"
-							tag="li"
-							:class="$route.path.toString().startsWith('/market-index') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Daftar Market Index
-							</a>
-						</router-link>
-						<router-link
-							to="/stock-score"
-							tag="li"
-							:class="$route.path.toString().startsWith('/stock-score') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Stock Score
-							</a>
-						</router-link>
-					</ul>
-				</li>
-				<!-- MASTER DATA -->
-				<li class="treeview">
-					<a href="#">
-						<i class="fa fa-database"></i>
-						<span>Master Data</span>
-						<span class="pull-right-container">
-							<i class="fa fa-angle-left pull-right"></i>
-						</span>
-					</a>
-					<ul class="treeview-menu">
-						<router-link
-							to="/master-sector"
-							tag="li"
-							:class="$route.path.toString().startsWith('/master-sector') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Sector
-							</a>
-						</router-link>
-						<router-link
-							to="/master-sub-sector"
-							tag="li"
-							:class="$route.path.toString().startsWith('/master-sub-sector') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Sub Sector
-							</a>
-						</router-link>
-						<router-link
-							to="/master-stock"
-							tag="li"
-							:class="$route.path.toString().startsWith('/master-stock') ? 'active router-link-active' : ''"
-						>
-							<a>
-								<i class="fa fa-circle-o"></i> Stock
+								<i class="fa" :class="sub_menu.label.icon"></i>
+								{{ sub_menu.label.name }}
 							</a>
 						</router-link>
 					</ul>
