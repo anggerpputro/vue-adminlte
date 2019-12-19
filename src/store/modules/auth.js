@@ -145,7 +145,9 @@ const actions = {
 				password
 			})
 			.then(response => {
-				dispatch("callbackLogin", response.data.data);
+				dispatch("route/getUserRoutes", response.data.data, {
+					root: true
+				}).then(resp => dispatch("callbackLogin", response.data.data));
 			})
 			.catch(error => {
 				console.error(error);

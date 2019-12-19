@@ -196,3 +196,21 @@
 		<!-- /.sidebar -->
 	</aside>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+	data() {
+		return {};
+	},
+	computed: {
+		getUserMenu() {
+			return this.$store.getters["route/userRoutes"];
+		}
+	},
+	created() {
+		console.log("USER MENU:", this.getUserMenu);
+	}
+};
+</script>
