@@ -19,7 +19,7 @@ const state = {
 
 const mutations = {
 	setAuthData(state, data) {
-		// console.log(data);
+		// console.log(data.user.id);
 		// const token = data.idToken;
 		// const userId = data.localId;
 		// const user = { id: data.localId, email: data.email };
@@ -27,8 +27,18 @@ const mutations = {
 		const token = data.access_token;
 		const refreshToken =
 			data.refresh_token !== undefined ? data.refresh_token : null;
-		const userId = null;
-		const user = null;
+
+		let user = data.user ? data.user : null;
+		try {
+			// is json
+			user = JSON.parse(user); // parse to object
+		} catch (e) {}
+
+		let userId = data.userId ? data.userId : null;
+		if (userId === null) {
+			userId = user ? user.id : null;
+		}
+
 		let expirationDate = null;
 
 		if (data.expirationDate !== undefined) {
@@ -153,66 +163,6 @@ const actions = {
 				console.error(error);
 			});
 	},
-	// doLogin({ commit, state }, { email, password }) {
-	// 	axiosAuth
-	// 		.post("/oauth/token", {
-	// 			grant_type: "password",
-	// 			client_id: state.clientId,
-	// 			client_secret: state.clientSecret,
-	// 			username: email,
-	// 			password: password,
-	// 			scope: ""
-	// 		})
-	// 		.then(response => {
-	// 			// console.log(response);
-	// 			commit("setLoginSuccess", {
-	// 				success: true,
-	// 				message: "login success!"
-	// 			});
-	// 			commit("setAuthData", response.data);
-	// 			router.go({ path: "/", force: true });
-	// 		})
-	// 		.catch(error => {
-	// 			// console.error(error);
-	// 			commit("setLoginSuccess", {
-	// 				success: false,
-	// 				message: error.response.data.message,
-	// 				error: error.response.data.error
-	// 			});
-	// 		});
-	// },
-	// doLogin({ commit, state }, { email, password }) {
-	// 	axiosAuth
-	// 		.post("/verifyPassword?key=" + state.apiKey, {
-	// 			email,
-	// 			password,
-	// 			returnSecureToken: true
-	// 		})
-	// 		.then(response => {
-	// 			commit("setLoginSuccess", {
-	// 				success: true,
-	// 				message: "login success!"
-	// 			});
-	// 			commit("setAuthData", response.data);
-	// 			router.go({ path: "/", force: true });
-	// 		})
-	// 		.catch(error => {
-	// 			commit("setLoginSuccess", {
-	// 				success: false,
-	// 				message: error + "@" + new Date().getTime(),
-	// 				error: error.response
-	// 			});
-	// 			const errorResponse = error.response;
-	// 			if (errorResponse.status == 400) {
-	// 				router.replace({
-	// 					path: "/login",
-	// 					query: { error: errorResponse.data.error.message }
-	// 				});
-	// 			} else {
-	// 				console.error(error);
-	// 			}
-	// 		});
-	// },
 	doLogout({ commit, getters }) {
 		commit("clearAuthData");
 		// router.go({ path: "/", force: true });

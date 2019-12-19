@@ -8,7 +8,7 @@
 					<img src="@/assets/img/user1-128x128.jpg" class="img-circle" alt="User Image" />
 				</div>
 				<div class="pull-left info">
-					<p>Angger Priyardhan</p>
+					<p>{{ getUserData.name }}</p>
 					<a href="#">
 						<i class="fa fa-circle text-success"></i> Online
 					</a>
@@ -76,6 +76,9 @@ export default {
 	computed: {
 		getUserMenu() {
 			return this.$store.getters["route/userRoutes"];
+		},
+		getUserData() {
+			return this.$store.getters["auth/user"];
 		}
 	},
 	created() {
