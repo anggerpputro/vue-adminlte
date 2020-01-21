@@ -1,0 +1,46 @@
+version: "3.7"
+services:
+    #App Service
+    # service_pdamsurvey_vuejs_app:
+    #     build:
+    #         context: .
+    #         dockerfile: Dockerfile
+    #     container_name: pdamsurvey_vuejs_app
+    #     restart: unless-stopped
+    #     tty: true
+    #     environment:
+    #         SERVICE_NAME: service_pdamsurvey_vuejs_app
+    #         SERVICE_TAGS: dev
+    #     working_dir: /app
+    #     ports:
+    #         - "58080:80"
+    #     volumes:
+    #         - ./dist/:/usr/share/nginx/html/
+    #         - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    #     networks:
+    #         - pdamsurvey-network
+
+    #Nginx Service
+    service_pdamsurvey_vuejs_webserver:
+        image: nginx:alpine
+        container_name: pdamsurvey_vuejs_webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "58080:80"
+            - "58043:443"
+        volumes:
+            - ./dist/:/var/www
+            - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - pdamsurvey-network
+
+#Docker Networks
+networks:
+    pdamsurvey-network:
+        driver: bridge
+#Volumes
+# volumes:
+#     pdamsurvey_mysql-data:
+#         driver: local
+#     pdamsurvey_redis-data:
