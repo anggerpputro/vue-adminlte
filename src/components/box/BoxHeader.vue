@@ -1,11 +1,10 @@
 <template>
 	<div class="box-header with-border text-center">
-		<h3 v-if="titleCenter != null" class="box-title text-center">
-			<u>{{ titleCenter }}</u>
-		</h3>
+		<h3 v-if="titleCenter != null" class="box-title text-center">{{ titleCenter }}</h3>
 		<button v-if="btnAddUrl != null" class="btn btn-primary btn-sm pull-left" @click="btnAddClicked">
 			<strong>
-				<i class="fa fa-plus-circle"></i> Add New
+				<i class="fa" :class="btnAddIcon != null ? btnAddIcon : 'fa-plus-circle'"></i>
+				{{ btnAddLabel != null ? btnAddLabel : "Add New" }}
 			</strong>
 		</button>
 		<button
@@ -20,11 +19,29 @@
 
 		<slot></slot>
 
+		<button
+			v-if="btnRightUrl != null"
+			class="btn btn-primary btn-sm pull-right"
+			@click="btnRightClicked"
+		>
+			<strong>
+				<i
+					class="fa"
+					:class="
+						btnRightIcon != null
+							? btnRightIcon
+							: 'fa-long-arrow-right'
+					"
+				></i>
+				{{ btnRightLabel != null ? btnRightLabel : "Next" }}
+			</strong>
+		</button>
+
 		<div class="box-tools pull-right">
 			<div v-if="showSearch" class="form-inline">
 				<div class="form-group">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search...">
+						<input type="text" class="form-control" placeholder="Search..." />
 						<div class="input-group-addon">
 							<i class="fa fa-search"></i>
 						</div>
@@ -46,6 +63,26 @@ export default {
 			type: String,
 			default: null
 		},
+		btnAddIcon: {
+			type: String,
+			default: null
+		},
+		btnAddLabel: {
+			type: String,
+			default: null
+		},
+		btnRightUrl: {
+			type: String,
+			default: null
+		},
+		btnRightIcon: {
+			type: String,
+			default: null
+		},
+		btnRightLabel: {
+			type: String,
+			default: null
+		},
 		btnBackUrl: {
 			type: String,
 			default: null
@@ -57,10 +94,17 @@ export default {
 	},
 	methods: {
 		btnAddClicked() {
-			this.$router.replace(this.btnAddUrl);
+			this.$router.push({ path: this.btnAddUrl });
+		},
+		btnRightClicked() {
+			this.$router.push({ path: this.btnRightUrl });
 		},
 		btnBackClicked() {
-			this.$router.replace(this.btnBackUrl);
+			if (this.btnBackUrl == "") {
+				this.$router.go(-1);
+			} else {
+				this.$router.push({ path: this.btnBackUrl });
+			}
 		}
 	}
 };

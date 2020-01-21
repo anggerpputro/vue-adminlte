@@ -7,7 +7,7 @@
 				ref="inputEmail"
 				type="email"
 				class="form-control"
-				placeholder="Username"
+				placeholder="NPP"
 				v-model="email"
 				@keyup.enter="doLogin"
 			/>
@@ -26,7 +26,7 @@
 			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 		</div>
 		<div class="row">
-			<div class="col-xs-8">
+			<div class="col-xs-6">
 				<!-- <div class="checkbox icheck">
 								<label>
 									<input type="checkbox"> Remember Me
@@ -34,7 +34,7 @@
 				</div>-->
 			</div>
 			<!-- /.col -->
-			<div class="col-xs-4">
+			<div class="col-xs-6">
 				<button
 					id="btn-login"
 					type="button"
@@ -43,6 +43,20 @@
 				>{{ signInText }}</button>
 			</div>
 			<!-- /.col -->
+		</div>
+		<div class="row">
+			<div class="col-xs-12 text-center">
+				<h5 v-if="loading_data" class="text-danger">
+					<strong>
+						<i class="fa fa-spin fa-spinner"></i>
+						&nbsp;
+						<i>Signing in...</i>
+					</strong>
+				</h5>
+				<h5 v-if="notifikasi" class="text-danger">
+					<strong>{{ notifikasi }}</strong>
+				</h5>
+			</div>
 		</div>
 	</div>
 </template>
@@ -56,7 +70,9 @@ export default {
 			signInText: "Sign In",
 			loginError: false,
 			loginErrorMessage: "",
-			loginAlert: "alert-danger"
+			loginAlert: "alert-danger",
+			loading_data: false,
+			notifikasi: null
 		};
 	},
 	computed: {
@@ -105,11 +121,36 @@ export default {
 				document.getElementById("input-email").disabled = true;
 				document.getElementById("input-password").disabled = true;
 				document.getElementById("btn-login").disabled = true;
+				this.loading_data = true;
+				this.notifikasi = null;
 
-				this.$store.dispatch("auth/doLogin", {
-					email: this.email,
-					password: this.password
-				});
+				this.$store
+					.dispatch("auth/doLogin", {
+						email: this.email,
+						password: this.password
+					})
+					.then(response => {
+						this.signInText = "Redirecting...";
+						this.loading_data = false;
+
+						// window.location.replace(response);
+						window.location.reload();
+					})
+					.catch(err => {
+						this.signInText = "Sign In";
+						this.loading_data = false;
+						document.getElementById("input-email").disabled = false;
+						document.getElementById(
+							"input-password"
+						).disabled = false;
+						document.getElementById("btn-login").disabled = false;
+
+						if (err.response) {
+							this.notifikasi = err.response.data.message;
+						} else {
+							this.notifikasi = err.message;
+						}
+					});
 			}
 		}
 	}
