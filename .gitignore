@@ -5,11 +5,17 @@ node_modules
 # local env files
 .env.local
 .env.*.local
+/src/config-url.js
+/docker/nginx/conf.d/app.conf
 
 # Log files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# lock files
+package.lock
+yarn.lock
 
 # Editor directories and files
 .idea

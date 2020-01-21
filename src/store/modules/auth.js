@@ -1,10 +1,17 @@
 import axiosAuth from "@/axios-auth";
 import router from "@/router";
+import configUrl from "@/config-url";
 
 const state = {
-	redirectUri: "http://localhost/auth/callback", // stock-analyzer-client
-	logoutUri: "http://localhost", // stock-analyzer-client
-	dashboardUri: "http://localhost:8080", // stock-analyzer-client
+	// redirectUri: "http://localhost/auth/callback", // stock-analyzer-client
+	// logoutUri: "http://localhost:50080", // stock-analyzer-client
+	// dashboardUri: "http://localhost:50080", // stock-analyzer-client
+	// redirectUri: "http://192.168.1.3/auth/callback", // stock-analyzer-client
+	// logoutUri: "http://192.168.1.3:8080", // stock-analyzer-client
+	// dashboardUri: "http://192.168.1.3:8080", // stock-analyzer-client
+	redirectUri: configUrl.vRedirectUri,
+	logoutUri: configUrl.vLogoutUri,
+	dashboardUri: configUrl.vDashboardUri,
 	tokenType: null,
 	token: null,
 	refreshToken: null,
@@ -36,7 +43,7 @@ const mutations = {
 
 		let userId = data.userId ? data.userId : null;
 		if (userId === null) {
-			userId = user ? user.id : null;
+			userId = user ? user.npp : null;
 		}
 
 		let expirationDate = null;
@@ -60,6 +67,21 @@ const mutations = {
 		localStorage.setItem("token", token);
 		localStorage.setItem("refreshToken", refreshToken);
 		localStorage.setItem("expirationDate", expirationDate);
+		localStorage.setItem("userId", userId);
+		localStorage.setItem("user", JSON.stringify(user));
+	},
+	setUserData(state, userData) {
+		let user = userData;
+		try {
+			// is json
+			user = JSON.parse(user); // parse to object
+		} catch (e) {}
+
+		let userId = user ? user.npp : null;
+
+		state.userId = userId;
+		state.user = user;
+
 		localStorage.setItem("userId", userId);
 		localStorage.setItem("user", JSON.stringify(user));
 	},
@@ -105,21 +127,26 @@ const actions = {
 		}
 	},
 	callbackLogin({ commit, getters }, query) {
-		if (
-			query.token_type !== undefined &&
-			query.expires_in !== undefined &&
-			query.access_token !== undefined
-		) {
-			commit("setLoginSuccess", {
-				success: true,
-				message: "login success!"
-			});
-			commit("setAuthData", query);
+		return new Promise((resolve, reject) => {
+			if (
+				query.token_type !== undefined &&
+				query.expires_in !== undefined &&
+				query.access_token !== undefined
+			) {
+				commit("setLoginSuccess", {
+					success: true,
+					message: "login success!"
+				});
+				commit("setAuthData", query);
 
-			// router.push({ name: "dashboard" });
-			// router.go({ path: "/dashboard", force: true });
-			window.location.replace(getters.dashboardUri);
-		}
+				// router.push({ name: "dashboard" });
+				// router.go({ path: "/dashboard", force: true });
+				// window.location.replace(getters.dashboardUri);
+				resolve(getters.dashboardUri);
+			} else {
+				reject(new Error("Response Data Error!"));
+			}
+		});
 	},
 	validateToken({ getters }) {
 		if (getters.isAuthenticated) {
@@ -147,26 +174,58 @@ const actions = {
 				});
 		}
 	},
+	updateProfile({ getters, commit }, formData) {
+		return new Promise((resolve, reject) => {
+			if (getters.isAuthenticated) {
+				const tokenType = localStorage.getItem("tokenType");
+				const token = localStorage.getItem("token");
+
+				const headers = {
+					Accept: "application/json",
+					Authorization: tokenType + " " + token
+				};
+
+				axiosAuth
+					.post("/update-profile", formData, { headers })
+					.then(response => {
+						if (response.data.data) {
+							commit("setUserData", response.data.data.saved);
+						}
+						resolve(response);
+					})
+					.catch(error => reject(error));
+			} else {
+				reject(new Error("Unauthenticated!"));
+			}
+		});
+	},
 	doLogin({ dispatch }, { email, password }) {
 		// console.log("DO LOGIN", email, password);
-		axiosAuth
-			.post("/login", {
-				username: email,
-				password
-			})
-			.then(response => {
-				dispatch("route/getUserRoutes", response.data.data, {
-					root: true
-				}).then(resp => dispatch("callbackLogin", response.data.data));
-			})
-			.catch(error => {
-				console.error(error);
-			});
+		return new Promise((resolve, reject) => {
+			axiosAuth
+				.post("/login", {
+					npp: email,
+					password
+				})
+				.then(response => {
+					dispatch("callbackLogin", response.data)
+						.then(resp => resolve(resp))
+						.catch(e => reject(e));
+				})
+				.catch(error => {
+					console.error(error);
+					reject(error);
+				});
+		});
 	},
 	doLogout({ commit, getters }) {
 		commit("clearAuthData");
 		// router.go({ path: "/", force: true });
-		window.location.replace(getters.logoutUri);
+		// window.location.replace(getters.logoutUri);
+		window.location.reload();
+	},
+	clearLocalStorage({ commit }) {
+		commit("clearAuthData");
 	}
 };
 

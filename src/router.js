@@ -9,6 +9,8 @@ import LoginOauthPage from "@/templates/LoginOauthPage.vue";
 
 import Dashboard from "@/views/Admin/Dashboard.vue";
 
+// modules
+
 // import Stock from "./views/MasterData/Stock.vue";
 // import AllStock from "./views/MasterData/Stock/AllStock.vue";
 // import InputStock from "./views/MasterData/Stock/InputStock.vue";
@@ -16,7 +18,7 @@ import Dashboard from "@/views/Admin/Dashboard.vue";
 Vue.use(Router);
 
 export default new Router({
-	mode: "history",
+	// mode: "history",
 	routes: [
 		{
 			path: "/",

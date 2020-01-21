@@ -1,7 +1,7 @@
 <template>
 	<div class="wrapper">
-		<Header/>
-		<Sidebar/>
+		<Header />
+		<Sidebar />
 
 		<!-- <Content/> -->
 		<div class="content-wrapper">
@@ -11,8 +11,8 @@
 			</transition>
 		</div>
 
-		<Footer/>
-		<ControlSidebar/>
+		<Footer />
+		<ControlSidebar />
 
 		<!-- <div class="container">
 			<transition name="slide" mode="out-in">
@@ -25,7 +25,7 @@
 <script>
 import Header from "@/components/admin-lte/Header.vue";
 import Sidebar from "@/components/admin-lte/Sidebar.vue";
-import Content from "@/components/admin-lte/Content.vue";
+// import Content from "@/components/admin-lte/Content.vue";
 import Footer from "@/components/admin-lte/Footer.vue";
 import ControlSidebar from "@/components/admin-lte/ControlSidebar.vue";
 
@@ -35,7 +35,7 @@ export default {
 	components: {
 		Header,
 		Sidebar,
-		Content,
+		// Content,
 		Footer,
 		ControlSidebar
 	},
