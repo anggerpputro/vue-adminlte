@@ -1,5 +1,6 @@
 import axios from "axios";
 import router from "@/router";
+import configApp from "@/config-app";
 
 const state = {
 	routesGenerated: false,
@@ -12,7 +13,10 @@ const mutations = {
 	},
 	setUserRoutes(state, value) {
 		state.userRoutes = value;
-		localStorage.setItem("userRoutes", JSON.stringify(value));
+		localStorage.setItem(
+			configApp.localStoragePrefix + "userRoutes",
+			JSON.stringify(value)
+		);
 	}
 };
 
@@ -44,7 +48,9 @@ const actions = {
 
 const getters = {
 	userRoutes: state => {
-		const userRoutes = localStorage.getItem("userRoutes");
+		const userRoutes = localStorage.getItem(
+			configApp.localStoragePrefix + "userRoutes"
+		);
 		// commit("userRoutes", userRoutes);
 		return JSON.parse(userRoutes);
 	},

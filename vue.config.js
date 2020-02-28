@@ -1,9 +1,9 @@
 module.exports = {
 	// ...other vue-cli plugin options...
-	publicPath: process.env.NODE_ENV === "production" ? "/pdamsurvey/" : "/",
+	publicPath: process.env.NODE_ENV === "production" ? "/vueadminlte/" : "/",
 
 	pwa: {
-		name: "Survey Pelanggan",
+		name: "Vue AdminLTE",
 		start_url: "/index.html",
 		display: "standalone",
 		themeColor: "#3c8dbc",

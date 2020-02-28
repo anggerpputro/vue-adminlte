@@ -1,6 +1,7 @@
 import axiosAuth from "@/axios-auth";
 import router from "@/router";
 import configUrl from "@/config-url";
+import configApp from "@/config-app";
 
 const state = {
 	// redirectUri: "http://localhost/auth/callback", // stock-analyzer-client
@@ -63,12 +64,24 @@ const mutations = {
 		state.userId = userId;
 		state.user = user;
 
-		localStorage.setItem("tokenType", tokenType);
-		localStorage.setItem("token", token);
-		localStorage.setItem("refreshToken", refreshToken);
-		localStorage.setItem("expirationDate", expirationDate);
-		localStorage.setItem("userId", userId);
-		localStorage.setItem("user", JSON.stringify(user));
+		localStorage.setItem(
+			configApp.localStoragePrefix + "tokenType",
+			tokenType
+		);
+		localStorage.setItem(configApp.localStoragePrefix + "token", token);
+		localStorage.setItem(
+			configApp.localStoragePrefix + "refreshToken",
+			refreshToken
+		);
+		localStorage.setItem(
+			configApp.localStoragePrefix + "expirationDate",
+			expirationDate
+		);
+		localStorage.setItem(configApp.localStoragePrefix + "userId", userId);
+		localStorage.setItem(
+			configApp.localStoragePrefix + "user",
+			JSON.stringify(user)
+		);
 	},
 	setUserData(state, userData) {
 		let user = userData;
@@ -82,8 +95,11 @@ const mutations = {
 		state.userId = userId;
 		state.user = user;
 
-		localStorage.setItem("userId", userId);
-		localStorage.setItem("user", JSON.stringify(user));
+		localStorage.setItem(configApp.localStoragePrefix + "userId", userId);
+		localStorage.setItem(
+			configApp.localStoragePrefix + "user",
+			JSON.stringify(user)
+		);
 	},
 	clearAuthData(state) {
 		state.tokenType = null;
@@ -93,7 +109,13 @@ const mutations = {
 		state.userId = null;
 		state.user = null;
 
-		localStorage.clear();
+		const localStorageItems = { ...localStorage };
+		for (const lskey in localStorageItems) {
+			if (lskey.startsWith(configApp.localStoragePrefix)) {
+				localStorage.removeItem(lskey);
+			}
+		}
+		// localStorage.clear();
 	},
 	setLoginSuccess(state, loginSuccess) {
 		state.loginSuccess = loginSuccess;
@@ -105,12 +127,24 @@ const actions = {
 		if (getters.isAuthenticated) {
 			dispatch("validateToken");
 
-			const tokenType = localStorage.getItem("tokenType");
-			const token = localStorage.getItem("token");
-			const refreshToken = localStorage.getItem("refreshToken");
-			const expirationDate = localStorage.getItem("expirationDate");
-			const userId = localStorage.getItem("userId");
-			const user = localStorage.getItem("user");
+			const tokenType = localStorage.getItem(
+				configApp.localStoragePrefix + "tokenType"
+			);
+			const token = localStorage.getItem(
+				configApp.localStoragePrefix + "token"
+			);
+			const refreshToken = localStorage.getItem(
+				configApp.localStoragePrefix + "refreshToken"
+			);
+			const expirationDate = localStorage.getItem(
+				configApp.localStoragePrefix + "expirationDate"
+			);
+			const userId = localStorage.getItem(
+				configApp.localStoragePrefix + "userId"
+			);
+			const user = localStorage.getItem(
+				configApp.localStoragePrefix + "user"
+			);
 
 			commit("setAuthData", {
 				token_type: tokenType,
@@ -150,8 +184,12 @@ const actions = {
 	},
 	validateToken({ getters }) {
 		if (getters.isAuthenticated) {
-			const tokenType = localStorage.getItem("tokenType");
-			const token = localStorage.getItem("token");
+			const tokenType = localStorage.getItem(
+				configApp.localStoragePrefix + "tokenType"
+			);
+			const token = localStorage.getItem(
+				configApp.localStoragePrefix + "token"
+			);
 
 			const headers = {
 				Accept: "application/json",
@@ -177,8 +215,12 @@ const actions = {
 	updateProfile({ getters, commit }, formData) {
 		return new Promise((resolve, reject) => {
 			if (getters.isAuthenticated) {
-				const tokenType = localStorage.getItem("tokenType");
-				const token = localStorage.getItem("token");
+				const tokenType = localStorage.getItem(
+					configApp.localStoragePrefix + "tokenType"
+				);
+				const token = localStorage.getItem(
+					configApp.localStoragePrefix + "token"
+				);
 
 				const headers = {
 					Accept: "application/json",
@@ -244,14 +286,20 @@ const getters = {
 	user: state => state.user,
 	isAuthenticated: state => {
 		// cek token exists
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem(
+			configApp.localStoragePrefix + "token"
+		);
 		if (!token) {
 			// token not exists
 			return false;
 		}
 
 		// cek expiration date
-		const expirationDate = new Date(localStorage.getItem("expirationDate"));
+		const expirationDate = new Date(
+			localStorage.getItem(
+				configApp.localStoragePrefix + "expirationDate"
+			)
+		);
 		const now = new Date();
 		if (now >= expirationDate) {
 			// token expired
@@ -259,8 +307,12 @@ const getters = {
 		}
 
 		// user logged in
-		const userId = localStorage.getItem("userId");
-		const user = JSON.parse(localStorage.getItem("user"));
+		const userId = localStorage.getItem(
+			configApp.localStoragePrefix + "userId"
+		);
+		const user = JSON.parse(
+			localStorage.getItem(configApp.localStoragePrefix + "user")
+		);
 
 		return true;
 	},
