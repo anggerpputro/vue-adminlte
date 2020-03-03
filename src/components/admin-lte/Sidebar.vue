@@ -36,7 +36,7 @@
 					</a>
 				</router-link>
 				<!-- KERTAS KERJA -->
-				<li v-for="(menu, menu_index) in getUserMenu" :key="menu_index" class="treeview">
+				<li v-for="(menu, menu_index) in userMenu" :key="menu_index" class="treeview">
 					<a href="#">
 						<i class="fa" :class="menu.label.icon"></i>
 						<span>{{ menu.label.name }}</span>
@@ -71,7 +71,9 @@ import axios from "axios";
 
 export default {
 	data() {
-		return {};
+		return {
+			userMenu: null
+		};
 	},
 	computed: {
 		getUserMenu() {
@@ -82,6 +84,13 @@ export default {
 		}
 	},
 	created() {
+		if (!this.getUserMenu) {
+			this.$store.dispatch("route/getUserRoutes").then(response => {
+				this.userMenu = response.data.data;
+			});
+		} else {
+			this.userMenu = this.getUserMenu;
+		}
 		console.log("USER MENU:", this.getUserMenu);
 	}
 };

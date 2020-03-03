@@ -13,35 +13,39 @@ const mutations = {
 	},
 	setUserRoutes(state, value) {
 		state.userRoutes = value;
-		localStorage.setItem(
-			configApp.localStoragePrefix + "userRoutes",
-			JSON.stringify(value)
-		);
+		const key = configApp.localStoragePrefix + "userRoutes";
+
+		localStorage.removeItem(key);
+		localStorage.setItem(key, JSON.stringify(value));
 	}
 };
 
 const actions = {
-	getUserRoutes({ commit }, authData) {
+	getUserRoutes({ commit, rootGetters }) {
 		commit("setRoutesGenerated", false);
 		return new Promise((resolve, reject) => {
-			const tokenType = authData.token_type;
-			const token = authData.access_token;
+			if (rootGetters["auth/isAuthenticated"]) {
+				const tokenType = rootGetters["auth/tokenType"];
+				const token = rootGetters["auth/token"];
 
-			const headers = {
-				Accept: "application/json",
-				Authorization: tokenType + " " + token
-			};
+				const headers = {
+					Accept: "application/json",
+					Authorization: tokenType + " " + token
+				};
 
-			axios
-				.get("/sidebar-menu/mine", {
-					headers
-				})
-				.then(response => {
-					commit("setUserRoutes", response.data.data);
-					commit("setRoutesGenerated", true);
-					resolve(response);
-				})
-				.catch(err => reject(err));
+				axios
+					.get("/sidebar-menu/mine", {
+						headers
+					})
+					.then(response => {
+						commit("setUserRoutes", response.data.data);
+						commit("setRoutesGenerated", true);
+						resolve(response);
+					})
+					.catch(err => reject(err));
+			} else {
+				reject("Unauthenticated!");
+			}
 		});
 	}
 };

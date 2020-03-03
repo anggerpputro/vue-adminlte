@@ -42,7 +42,7 @@ const mutations = {
 			user = JSON.parse(user); // parse to object
 		} catch (e) {}
 
-		let userId = data.userId ? data.userId : null;
+		let userId = user.id ? user.id : null;
 		if (userId === null) {
 			userId = user ? user.npp : null;
 		}
@@ -246,11 +246,11 @@ const actions = {
 		return new Promise((resolve, reject) => {
 			axiosAuth
 				.post("/login", {
-					npp: email,
+					username: email,
 					password
 				})
 				.then(response => {
-					dispatch("callbackLogin", response.data)
+					dispatch("callbackLogin", response.data.data)
 						.then(resp => resolve(resp))
 						.catch(e => reject(e));
 				})
