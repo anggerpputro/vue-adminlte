@@ -1,6 +1,8 @@
 <template>
 	<div>
-		<div class="alert" :class="loginAlert" v-if="loginError">{{ loginErrorMessage }}</div>
+		<div class="alert" :class="loginAlert" v-if="loginError">
+			{{ loginErrorMessage }}
+		</div>
 		<div class="form-group has-feedback">
 			<input
 				id="input-email"
@@ -40,7 +42,9 @@
 					type="button"
 					class="btn btn-primary btn-block btn-flat"
 					@click="doLogin"
-				>{{ signInText }}</button>
+				>
+					{{ signInText }}
+				</button>
 			</div>
 			<!-- /.col -->
 		</div>

@@ -7,6 +7,7 @@ import store from "./store/store";
 import axios from "axios";
 import vueScrollBehavior from "vue-scroll-behavior";
 import Notifications from "vue-notification";
+import VModal from "vue-js-modal";
 
 // components
 import Select2 from "v-select2-component";
@@ -30,6 +31,9 @@ Vue.use(vueScrollBehavior, {
 
 // Vue Notification
 Vue.use(Notifications);
+
+// Vue Modal
+Vue.use(VModal);
 
 Vue.component("Select2", Select2);
 Vue.component("paginate", Paginate);

@@ -25,13 +25,7 @@ const actions = {
 		commit("setRoutesGenerated", false);
 		return new Promise((resolve, reject) => {
 			if (rootGetters["auth/isAuthenticated"]) {
-				const tokenType = rootGetters["auth/tokenType"];
-				const token = rootGetters["auth/token"];
-
-				const headers = {
-					Accept: "application/json",
-					Authorization: tokenType + " " + token
-				};
+				const headers = rootGetters["auth/headersAuth"];
 
 				axios
 					.get("/sidebar-menu/mine", {

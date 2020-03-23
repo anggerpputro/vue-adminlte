@@ -1,5 +1,5 @@
 <template>
-	<div id="app-container" :class="{loaded: !showGlobalLoader}">
+	<div id="app-container" :class="{ loaded: !showGlobalLoader }">
 		<div id="loader-wrapper">
 			<!-- <h2 id="loader-title" class="box-title text-center">Please Wait...</h2> -->
 			<div id="loader"></div>
@@ -9,7 +9,7 @@
 		</div>
 
 		<transition name="slide" mode="out-in">
-			<router-view/>
+			<router-view />
 		</transition>
 	</div>
 </template>
@@ -90,6 +90,10 @@ export default {
 }
 .padding-5 {
 	padding: 5px !important;
+}
+
+.text-white {
+	color: white !important;
 }
 
 #loader-wrapper {

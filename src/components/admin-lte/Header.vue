@@ -4,18 +4,23 @@
 		<router-link to="/dashboard" class="logo">
 			<!-- mini logo for sidebar mini 50x50 pixels -->
 			<span class="logo-mini">
-				<b>Survey</b>
+				<b>PPTKA</b>
 			</span>
 			<!-- logo for regular state and mobile devices -->
 			<span class="logo-lg">
-				<b>Survey</b> Pelanggan
+				<b>PPTKA</b>
 			</span>
 		</router-link>
 
 		<!-- Header Navbar: style can be found in header.less -->
 		<nav class="navbar navbar-static-top">
 			<!-- Sidebar toggle button-->
-			<a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+			<a
+				href="#"
+				class="sidebar-toggle"
+				data-toggle="push-menu"
+				role="button"
+			>
 				<span class="sr-only">Toggle navigation</span>
 			</a>
 			<!-- Navbar Right Menu -->
@@ -39,7 +44,11 @@
 					</li>-->
 					<!-- Notifications: style can be found in dropdown.less -->
 					<li class="dropdown notifications-menu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<a
+							href="#"
+							class="dropdown-toggle"
+							data-toggle="dropdown"
+						>
 							<i class="fa fa-bell-o"></i>
 							<span class="label label-warning"></span>
 						</a>
@@ -71,7 +80,11 @@
 					</li>-->
 					<!-- User Account: style can be found in dropdown.less -->
 					<li class="dropdown user user-menu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						<a
+							href="#"
+							class="dropdown-toggle"
+							data-toggle="dropdown"
+						>
 							<img
 								src="@/assets/img/user1-128x128.jpg"
 								class="user-image"
@@ -79,19 +92,28 @@
 								style="margin-top:-2px; margin-right: 10px;"
 							/>
 							<span :class="hidden_xs ? 'hidden-xs' : ''">
-								{{
-								getUserData.name
-								}}
+								{{ getUserData.name }}
 							</span>
 						</a>
 						<ul class="dropdown-menu">
 							<!-- User image -->
 							<li class="user-header">
-								<img src="@/assets/img/user1-128x128.jpg" class="img-circle" alt="User Image" />
+								<img
+									src="@/assets/img/user1-128x128.jpg"
+									class="img-circle"
+									alt="User Image"
+								/>
 
 								<p>
 									{{ getUserData.name }} - Petugas Survey
-									<small>NPP: {{ getUserData.npp }} - Cabang: {{ getUserData.mcabang ? getUserData.mcabang.nama_cab : '' }}</small>
+									<small
+										>NPP: {{ getUserData.npp }} - Cabang:
+										{{
+											getUserData.mcabang
+												? getUserData.mcabang.nama_cab
+												: ""
+										}}</small
+									>
 								</p>
 							</li>
 							<!-- Menu Body -->
@@ -111,7 +133,12 @@
 							<!-- Menu Footer-->
 							<li class="user-footer">
 								<div class="pull-left">
-									<a href="#" class="btn btn-default btn-flat" @click.prevent="gotoProfile">Profile</a>
+									<a
+										href="#"
+										class="btn btn-default btn-flat"
+										@click.prevent="gotoProfile"
+										>Profile</a
+									>
 								</div>
 								<div class="pull-right">
 									<a
@@ -119,7 +146,8 @@
 										class="btn btn-danger btn-flat"
 										@click.prevent="doLogout"
 										style="background: transparent; color: #d73925"
-									>Sign out</a>
+										>Sign out</a
+									>
 								</div>
 							</li>
 						</ul>

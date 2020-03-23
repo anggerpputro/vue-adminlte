@@ -160,7 +160,7 @@ const actions = {
 			router.go({ path: "/login", force: true });
 		}
 	},
-	callbackLogin({ commit, getters }, query) {
+	callbackLogin({ commit, getters, dispatch }, query) {
 		return new Promise((resolve, reject) => {
 			if (
 				query.token_type !== undefined &&
@@ -172,6 +172,14 @@ const actions = {
 					message: "login success!"
 				});
 				commit("setAuthData", query);
+
+				// console.log("Calling getUserRoutes");
+
+				// dispatch("route/getUserRoutes", null, { root: true })
+				// 	.then(resp => resolve(getters.dashboardUri))
+				// 	.catch(err =>
+				// 		reject(new Error("Fail getting user routes!"))
+				// 	);
 
 				// router.push({ name: "dashboard" });
 				// router.go({ path: "/dashboard", force: true });
@@ -316,7 +324,18 @@ const getters = {
 
 		return true;
 	},
-	loginSuccess: state => state.loginSuccess
+	loginSuccess: state => state.loginSuccess,
+	headersAuth: (state, getters) => {
+		const tokenType = getters.tokenType;
+		const token = getters.token;
+
+		const headers = {
+			Accept: "application/json",
+			Authorization: tokenType + " " + token
+		};
+
+		return headers;
+	}
 };
 
 export default {

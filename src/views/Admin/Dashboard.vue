@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<ContentHeader title="Dashboard"/>
+		<ContentHeader title="Dashboard" />
 
 		<!-- Main content -->
 		<section class="content"></section>

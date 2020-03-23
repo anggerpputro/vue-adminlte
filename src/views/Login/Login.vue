@@ -1,15 +1,13 @@
 <template>
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="#">
-				<b>Vue</b> AdminLTE
-			</a>
+			<a href="#"> <b>Vue</b> AdminLTE </a>
 		</div>
 		<!-- /.login-logo -->
 		<div class="login-box-body">
 			<p class="login-box-msg">Sign in to start your session</p>
 
-			<LoginForm/>
+			<LoginForm />
 
 			<!-- <div class="social-auth-links text-center">
 					<p>- OR -</p>
