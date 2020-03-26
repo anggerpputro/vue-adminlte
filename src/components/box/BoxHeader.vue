@@ -41,7 +41,13 @@
 			<div v-if="showSearch" class="form-inline">
 				<div class="form-group">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="Search..." />
+						<input
+							type="text"
+							class="form-control"
+							v-model="searchText"
+							@keyup.enter="searchSubmitted"
+							placeholder="Search..."
+						/>
 						<div class="input-group-addon">
 							<i class="fa fa-search"></i>
 						</div>
@@ -90,6 +96,10 @@ export default {
 		showSearch: {
 			type: Boolean,
 			default: true
+		},
+		searchText: {
+			type: String,
+			default: ""
 		}
 	},
 	methods: {
@@ -105,6 +115,9 @@ export default {
 			} else {
 				this.$router.push({ path: this.btnBackUrl });
 			}
+		},
+		searchSubmitted() {
+			this.$emit("searchSubmitted", this.searchText);
 		}
 	}
 };
